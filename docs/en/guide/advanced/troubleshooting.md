@@ -62,6 +62,8 @@ Check raw format, row stride, `stride × height = total_bytes`, and fixed-buffer
 
 PNG files and diagnosis directories use create-new semantics. Enter an unused path with an existing parent. In the Inspector, inspect the inline error and retry after the current export completes. A pending export retains its submitted frame through disconnection.
 
+On macOS, writing to an external volume may wait for the system's file-access permission. Respond to the system prompt or use an already authorized directory. The Inspector can continue to show **Saving** while permission is pending.
+
 Check command exit status after `diagnose`. Individual request failures can appear in `issues`, while identity, subscription, or filesystem failures can terminate collection before a final report is written.
 
 ## The C receive loop stops progressing

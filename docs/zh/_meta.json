@@ -1,0 +1,22 @@
+[
+  {
+    "type": "dir",
+    "name": "guide",
+    "label": "指南"
+  },
+  {
+    "type": "dir",
+    "name": "integration",
+    "label": "设备接入"
+  },
+  {
+    "type": "dir",
+    "name": "reference",
+    "label": "API 参考"
+  },
+  {
+    "type": "dir",
+    "name": "development",
+    "label": "开发"
+  }
+]

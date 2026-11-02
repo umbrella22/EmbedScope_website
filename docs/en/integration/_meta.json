@@ -1,0 +1,6 @@
+[
+  { "type": "file", "name": "rust", "label": "Rust" },
+  { "type": "file", "name": "c", "label": "C/C++" },
+  { "type": "file", "name": "lvgl", "label": "LVGL, display, and input" },
+  { "type": "file", "name": "dango", "label": "Dango OS" }
+]

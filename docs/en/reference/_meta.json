@@ -1,0 +1,5 @@
+[
+  { "type": "file", "name": "cli", "label": "CLI" },
+  { "type": "file", "name": "sdk", "label": "Host SDK" },
+  { "type": "file", "name": "protocol", "label": "Protocol 1" }
+]

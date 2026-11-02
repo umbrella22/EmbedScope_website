@@ -1,0 +1,22 @@
+[
+  {
+    "text": "指南",
+    "link": "/guide/start/introduction",
+    "activeMatch": "/guide/"
+  },
+  {
+    "text": "设备接入",
+    "link": "/integration/rust",
+    "activeMatch": "/integration/"
+  },
+  {
+    "text": "API 参考",
+    "link": "/reference/cli",
+    "activeMatch": "/reference/"
+  },
+  {
+    "text": "开发",
+    "link": "/development/architecture",
+    "activeMatch": "/development/"
+  }
+]

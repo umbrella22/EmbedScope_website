@@ -1,0 +1,22 @@
+[
+  {
+    "text": "Guide",
+    "link": "/guide/start/introduction",
+    "activeMatch": "/en/guide/"
+  },
+  {
+    "text": "Integration",
+    "link": "/integration/rust",
+    "activeMatch": "/en/integration/"
+  },
+  {
+    "text": "API reference",
+    "link": "/reference/cli",
+    "activeMatch": "/en/reference/"
+  },
+  {
+    "text": "Development",
+    "link": "/development/architecture",
+    "activeMatch": "/en/development/"
+  }
+]

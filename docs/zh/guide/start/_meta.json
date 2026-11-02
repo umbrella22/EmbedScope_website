@@ -1,0 +1,17 @@
+[
+  {
+    "type": "file",
+    "name": "introduction",
+    "label": "介绍"
+  },
+  {
+    "type": "file",
+    "name": "quick-start",
+    "label": "快速开始"
+  },
+  {
+    "type": "file",
+    "name": "features",
+    "label": "功能导航"
+  }
+]

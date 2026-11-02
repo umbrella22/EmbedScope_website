@@ -1,0 +1,32 @@
+[
+  {
+    "type": "file",
+    "name": "connection",
+    "label": "连接设备"
+  },
+  {
+    "type": "file",
+    "name": "logs-metrics",
+    "label": "日志与指标"
+  },
+  {
+    "type": "file",
+    "name": "ui-inspection",
+    "label": "UI 检查"
+  },
+  {
+    "type": "file",
+    "name": "display-input",
+    "label": "显示与输入"
+  },
+  {
+    "type": "file",
+    "name": "inspector",
+    "label": "桌面 Inspector"
+  },
+  {
+    "type": "file",
+    "name": "diagnose",
+    "label": "导出诊断"
+  }
+]

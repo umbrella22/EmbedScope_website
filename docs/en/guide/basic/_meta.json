@@ -1,0 +1,8 @@
+[
+  { "type": "file", "name": "connection", "label": "Connect a device" },
+  { "type": "file", "name": "logs-metrics", "label": "Logs and metrics" },
+  { "type": "file", "name": "ui-inspection", "label": "Inspect the UI tree" },
+  { "type": "file", "name": "display-input", "label": "Display and input" },
+  { "type": "file", "name": "inspector", "label": "Desktop Inspector" },
+  { "type": "file", "name": "diagnose", "label": "Collect a diagnosis" }
+]

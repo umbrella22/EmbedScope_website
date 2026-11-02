@@ -1,0 +1,4 @@
+[
+  { "type": "file", "name": "architecture", "label": "Architecture and lifecycles" },
+  { "type": "file", "name": "testing", "label": "Build and test" }
+]

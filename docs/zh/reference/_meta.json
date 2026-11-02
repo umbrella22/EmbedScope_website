@@ -1,0 +1,17 @@
+[
+  {
+    "type": "file",
+    "name": "cli",
+    "label": "CLI"
+  },
+  {
+    "type": "file",
+    "name": "sdk",
+    "label": "主机 SDK"
+  },
+  {
+    "type": "file",
+    "name": "protocol",
+    "label": "协议 1"
+  }
+]

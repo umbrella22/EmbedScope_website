@@ -1,0 +1,12 @@
+[
+  {
+    "type": "file",
+    "name": "architecture",
+    "label": "架构与生命周期"
+  },
+  {
+    "type": "file",
+    "name": "testing",
+    "label": "构建与测试"
+  }
+]

@@ -1,0 +1,5 @@
+[
+  { "type": "dir-section-header", "name": "start", "label": "Getting started" },
+  { "type": "dir-section-header", "name": "basic", "label": "Basic workflows" },
+  { "type": "dir-section-header", "name": "advanced", "label": "Advanced" }
+]

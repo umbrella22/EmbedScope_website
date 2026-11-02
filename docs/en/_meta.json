@@ -1,0 +1,22 @@
+[
+  {
+    "type": "dir",
+    "name": "guide",
+    "label": "Guide"
+  },
+  {
+    "type": "dir",
+    "name": "integration",
+    "label": "Integration"
+  },
+  {
+    "type": "dir",
+    "name": "reference",
+    "label": "API reference"
+  },
+  {
+    "type": "dir",
+    "name": "development",
+    "label": "Development"
+  }
+]

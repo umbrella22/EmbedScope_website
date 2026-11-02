@@ -1,0 +1,12 @@
+[
+  {
+    "type": "file",
+    "name": "skills",
+    "label": "AI 辅助调试与接入"
+  },
+  {
+    "type": "file",
+    "name": "troubleshooting",
+    "label": "故障排查"
+  }
+]

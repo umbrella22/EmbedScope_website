@@ -11,7 +11,7 @@ Rust 命令在 EmbedScope 源码仓库根目录执行。文档站使用独立的
 
 | 工具 | 用途 |
 | --- | --- |
-| Rust/Cargo | 构建工作区；工作区声明的最低 Rust 版本为 1.88 |
+| Rust/Cargo | CLI 与设备库最低 1.88；桌面 Inspector 最低 1.95 |
 | rustfmt、clippy | 格式和静态检查 |
 | Python 3 | CLI 端到端测试与 skill 安装 |
 | C 编译器与链接器 | LVGL native 构建和 C ABI harness |
@@ -103,6 +103,18 @@ cargo fmt --all -- --check
 cargo clippy --workspace --all-targets -- -D warnings
 cargo clippy -p escope-lvgl --features native --all-targets -- -D warnings
 ```
+
+## 扩展桌面语言
+
+Inspector 使用 Fluent 语言文件，目前支持简体中文和英文。界面通过左下角地球菜单切换语言，偏好由桌面应用存储保存；设备数据和原始错误保持原文。
+
+新增语言时，复制 `crates/escope-desktop/locales/en-US.ftl`，翻译文案并保留条目 ID 与命名参数，然后在 `src/i18n.rs` 的 `LOCALES` 中登记语言 ID、原生名称、内嵌资源与文档前缀。页面代码不需要增加语言分支。没有对应语言文档时，文档前缀使用英文入口。
+
+```sh
+cargo test -p escope-desktop
+```
+
+测试检查各语言条目及参数一致、Fluent 语法、格式化回退、偏好保存，以及中英文在最小和默认窗口尺寸下的布局与状态保留。新增语言后还需检查原生窗口的字体覆盖与控件宽度。完整源码导航与翻译规则见产品仓库的 `crates/escope-desktop/README.md`。
 
 ## 检查平台接入
 

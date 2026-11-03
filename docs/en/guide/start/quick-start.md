@@ -16,7 +16,7 @@ rustc --version
 cargo --version
 ```
 
-The workspace declares Rust 1.88 as its minimum version. A host C toolchain and platform build dependencies are also needed when building the Inspector, native LVGL adapter, or C examples. See [Build and test](../../development/testing.md) for those paths.
+The CLI and device-side libraries require Rust 1.88 or newer. The desktop Inspector requires Rust 1.95 or newer. A host C toolchain and platform build dependencies are also needed when building the Inspector, native LVGL adapter, or C examples. See [Build and test](../../development/testing.md) for those paths.
 
 ## 2. Install from source
 

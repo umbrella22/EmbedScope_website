@@ -16,7 +16,7 @@ rustc --version
 cargo --version
 ```
 
-工作区声明最低 Rust 版本为 1.88。桌面程序和原生 LVGL 的额外依赖见[构建与测试](../../development/testing.md)。
+CLI 与设备侧库最低需要 Rust 1.88；桌面 Inspector 最低需要 Rust 1.95。桌面程序和原生 LVGL 的额外依赖见[构建与测试](../../development/testing.md)。
 
 ## 第一步：安装命令行工具
 

@@ -1,19 +1,19 @@
 ---
 title: "Desktop Inspector"
-description: "Connect visually to a device, inspect objects and pixels, send taps, follow logs, and save a fixed screenshot in the background."
+description: "Use the bilingual desktop Inspector to inspect devices, switch interface language, follow logs, and save a fixed screenshot."
 ---
 
 # Desktop Inspector
 
 The Inspector is EmbedScope's native desktop tool for UI inspection, structured logs, system metrics, and device information. It uses the same device protocol and host SDK as the CLI.
 
-![Inspector connected to the software reference device, with linked objects, display, and properties](/images/inspector-reference.jpg)
+![Inspector connected to the software reference device, with linked objects, display, and properties](/images/inspector-reference-en.jpg)
 
 This screenshot uses the software reference device and synthetic pixels and measurements. For a physical device, see [Dango OS integration](../../integration/dango.md).
 
 ## Launch and connect
 
-From the EmbedScope source root:
+The desktop build requires Rust 1.95 or newer. From the EmbedScope source root:
 
 ```sh
 cargo run -p escope-desktop -- tcp://127.0.0.1:9337
@@ -32,6 +32,12 @@ The script packages a debug build as `target/EmbedScope Inspector.app`. Platform
 Serial baud is 115200. Check **DTR** before connecting when the device needs asserted DTR. Unchecked means preserve the underlying opener policy. Use the [CLI](../../reference/cli.md) or [SDK](../../reference/sdk.md) for another baud or explicit DTR off. Close any other process using the same physical serial port.
 
 After connecting, open **Device** from the left navigation to confirm the name, model, build, boot ID, and session. The bottom status bar shows connection state and snapshot age. Click **Disconnect** before using the CLI on the same serial port.
+
+## Choose the interface language
+
+Open the globe menu at the bottom left and choose **Follow system**, **English**, or **简体中文**. On first launch, system mode uses the first supported operating-system language and falls back to English. Manual changes apply immediately and persist after normal application shutdown.
+
+Changing language preserves the device session, selected object, filters, display frame, and any pending PNG export. Device logs, object names, firmware identifiers, paths, and original error details remain literal. Documentation links follow the active language. See [Build and test](../../development/testing.md#extend-desktop-languages) to add a language.
 
 ## Choose a workspace
 

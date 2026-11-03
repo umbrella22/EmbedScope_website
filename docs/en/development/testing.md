@@ -11,7 +11,7 @@ Run product commands from the EmbedScope source root. The documentation site is 
 
 | Tool | Use |
 | --- | --- |
-| Rust/Cargo | Workspace builds; declared minimum Rust 1.88 |
+| Rust/Cargo | CLI/device libraries: Rust 1.88; desktop Inspector: Rust 1.95 |
 | rustfmt and clippy | Formatting and static analysis |
 | Python 3 | CLI E2E and skill installer |
 | C compiler and linker | Native LVGL and C ABI harness |
@@ -100,6 +100,18 @@ cargo fmt --all -- --check
 cargo clippy --workspace --all-targets -- -D warnings
 cargo clippy -p escope-lvgl --features native --all-targets -- -D warnings
 ```
+
+## Extend desktop languages
+
+The Inspector uses Fluent catalogs and currently supports English and Simplified Chinese. The globe menu changes the language; desktop application storage saves the preference. Device data and original errors remain literal.
+
+To add a language, copy `crates/escope-desktop/locales/en-US.ftl`, translate values while preserving message IDs and named parameters, and register its ID, native name, embedded resource, and documentation prefix in `LOCALES` in `src/i18n.rs`. Views need no language-specific branches. Use the English documentation prefix when a translated site is unavailable.
+
+```sh
+cargo test -p escope-desktop
+```
+
+Tests check catalog and parameter parity, Fluent syntax, formatting fallback, saved preferences, and bilingual layout and state at minimum and default window sizes. Also check native font coverage and control widths for a new language. The product repository's `crates/escope-desktop/README.md` contains the source map and translation rules.
 
 ## Validate a platform integration
 

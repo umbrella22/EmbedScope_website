@@ -7,14 +7,14 @@ description: "Add a minimal no_std Agent, connect a complete-frame byte transpor
 
 Add `escope-agent` and `escope-protocol` to the firmware, establish Hello and Info, then enable each platform capability. Both libraries are allocation-free `no_std` and do not require Tokio, Embassy, or a specific RTOS.
 
-## 1. Add source dependencies
+## 1. Add dependencies
 
-The crates are currently source-only. Adjust these paths to the firmware workspace or use a reviewed Git revision:
+Add the protocol and Agent from crates.io. Both support `no_std` by default:
 
 ```toml
 [dependencies]
-escope-protocol = { path = "../EmbedScope/crates/escope-protocol" }
-escope-agent = { path = "../EmbedScope/crates/escope-agent" }
+escope-protocol = { version = "0.1.0" }
+escope-agent = { version = "0.1.0" }
 ```
 
 Reuse the application's transport and logger. A dedicated UART or USB CDC stream can carry binary protocol frames without changing an existing console or update protocol.

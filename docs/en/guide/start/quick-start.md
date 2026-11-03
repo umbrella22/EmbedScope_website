@@ -1,35 +1,37 @@
 ---
 title: "Quick start"
-description: "Install escope from source, connect to the software reference device, tap its counter, and save a PNG and diagnosis directory."
+description: "Download escope, connect to the software reference device, tap its counter, and save a PNG and diagnosis directory."
 ---
 
 # Quick start
 
 Complete a first diagnostic session without a development board. The software reference device provides synthetic logs, metrics, a UI tree, and a 320 × 240 counter screen.
 
-## 1. Prepare the environment
+## 1. Download the CLI
 
-Install Rust and Cargo, then check the toolchain:
+Open [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest) and choose a CLI ZIP for your operating system and processor:
 
-```sh
-rustc --version
-cargo --version
-```
+| System | Archive |
+| --- | --- |
+| Linux | x86_64 CLI ZIP |
+| Windows | x86_64 CLI ZIP |
+| macOS | arm64 for Apple Silicon, x86_64 for Intel |
 
-The CLI and device-side libraries require Rust 1.88 or newer. The desktop Inspector requires Rust 1.95 or newer. A host C toolchain and platform build dependencies are also needed when building the Inspector, native LVGL adapter, or C examples. See [Build and test](../../development/testing.md) for those paths.
-
-## 2. Install from source
-
-From an existing EmbedScope source checkout, run these commands at its repository root:
+Extract it into a permanent directory. On macOS and Linux, run this from that directory:
 
 ```sh
-cargo install --path crates/escope-cli --locked
-escope --help
+./escope --version
 ```
 
-The Cargo package is `escope-cli`; the installed executable is `escope`. Ensure Cargo's binary directory is on `PATH`. Registry packages and prebuilt binaries are not currently provided.
+On Windows PowerShell:
 
-For a local build without installation, run `cargo build -p escope-cli` and use `./target/debug/escope` in the following commands. On Windows, the executable has an `.exe` suffix.
+```powershell
+.\escope.exe --version
+```
+
+## 2. Add the directory to PATH
+
+Add the directory containing `escope` to your shell's `PATH`. On Windows, add it to the user `Path` environment variable and open a new terminal. The following commands then work from any working directory. The prebuilt CLI does not require Rust. Compare the download's SHA-256 with `SHA256SUMS` from the same Release to check file integrity.
 
 ## 3. Start the reference device
 
@@ -71,6 +73,16 @@ escope -d tcp://127.0.0.1:9337 diagnose --output diagnosis-01 --logs 3
 ```
 
 The new `diagnosis-01` directory contains `report.json` and `screen.png`. Check `complete` and `issues` in the report. The report collects identity and the supported logs, metrics, tree, crash, and display data. The directory must not already exist, and its parent must exist.
+
+## Install with an existing Rust environment
+
+Cargo is an alternative for machines with Rust 1.88 or newer and the platform's build dependencies:
+
+```sh
+cargo install escope-cli --version '=0.1.1' --locked
+```
+
+See [Build and test](../../development/testing.md) for toolchains used to build the Inspector, native LVGL adapter, and C/C++ SDK from source.
 
 ## Continue
 

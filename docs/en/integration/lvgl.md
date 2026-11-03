@@ -18,7 +18,7 @@ The default library does not link a native LVGL provider:
 
 ```toml
 [dependencies]
-escope-lvgl = { path = "../EmbedScope/crates/escope-lvgl" }
+escope-lvgl = { version = "0.1.0" }
 ```
 
 Enable `features = ["native"]` for NativeTree. The adapter and application must use the same actual LVGL provider, ABI, and configuration. Linking a separate copy does not give access to the application's native object state.
@@ -87,3 +87,7 @@ escope -d tcp://127.0.0.1:9337 display capture after-01.png
 ```
 
 The sample coordinates belong to the software reference counter. Use [Inspector](../guide/basic/inspector.md) to examine object bounds on another device. [Dango OS](./dango.md) provides an existing custom tree and final-display integration.
+
+## Run the rs_lvgl integration example
+
+The [rs_lvgl EmbedScope guide](https://umbrella22.github.io/rs_lvgl_website/en/guide/embedscope.html) provides a real native example using published dependencies, UI-thread access, fixed display capture and native pointer input. It documents enabling diagnostics and omitting them from production builds. `embedscope` is an application-owned optional feature; `--release` does not disable it.

@@ -28,6 +28,6 @@ for (const file of pages) {
     if (!target.endsWith('.html')) assets.add(path.relative(output, target));
   }
 }
-for (const required of ['index.html', 'en/index.html', 'guide/start/introduction.html', 'en/guide/start/introduction.html', 'guide/start/quick-start.html', 'en/guide/start/quick-start.html', 'integration/dango.html', 'en/integration/dango.html', 'guide/dango.html', 'en/guide/dango.html', 'reference/cli.html', 'reference/sdk.html', 'logo.svg', 'favicon.svg', 'images/reference-capture.png', 'images/inspector-dango.jpg']) if (!existsSync(path.join(output, required))) errors.push(`missing built artifact ${required}`);
+for (const required of ['index.html', 'en/index.html', 'guide/start/introduction.html', 'en/guide/start/introduction.html', 'guide/start/quick-start.html', 'en/guide/start/quick-start.html', 'integration/dango.html', 'en/integration/dango.html', 'guide/dango.html', 'en/guide/dango.html', 'reference/cli.html', 'reference/sdk.html', 'logo.svg', 'logo-dark.svg', 'favicon.svg', 'images/reference-capture.png', 'images/inspector-dango.jpg']) if (!existsSync(path.join(output, required))) errors.push(`missing built artifact ${required}`);
 if (errors.length) { console.error([...new Set(errors)].join('\n')); process.exit(1); }
 console.log(JSON.stringify({ passed: true, base, htmlPages: pages.length, localReferences: links, assets: assets.size }));

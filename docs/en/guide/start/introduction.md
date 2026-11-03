@@ -29,7 +29,7 @@ A UI tree describes objects. A capture records pixels from the source selected b
 
 Check device, build, boot, session, and capabilities before comparing results. Missing measurements remain unavailable. A successful connection to the software reference device verifies the host workflow with synthetic data; it does not measure a physical board.
 
-EmbedScope currently provides source builds. The crates and CLI are not published to a package registry. Arbitrary shell execution, file transfer, OTA updates, operation recording, JTAG, and ELF symbol analysis are outside the current command set.
+Download the CLI and Inspector from [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest). Rust SDKs are available on crates.io, and C/C++ integration uses the C SDK source ZIP. Arbitrary shell execution, file transfer, OTA updates, operation recording, JTAG, and ELF symbol analysis are outside the current command set.
 
 ## Start here
 

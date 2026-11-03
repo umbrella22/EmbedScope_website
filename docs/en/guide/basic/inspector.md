@@ -11,23 +11,28 @@ The Inspector is EmbedScope's native desktop tool for UI inspection, structured 
 
 This screenshot uses the software reference device and synthetic pixels and measurements. For a physical device, see [Dango OS integration](../../integration/dango.md).
 
-## Launch and connect
+## Download and launch
 
-The desktop build requires Rust 1.95 or newer. From the EmbedScope source root:
+Download the Inspector for your platform from [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest):
+
+| System | Format and launch |
+| --- | --- |
+| Linux x86_64 | AppImage; mark it executable, then run it |
+| Windows x86_64 | Portable ZIP; extract and run the application |
+| macOS | Application ZIP; choose arm64 for Apple Silicon or x86_64 for Intel, extract, then open the `.app` |
+
+On Linux, run these commands in the download directory, using the downloaded AppImage filename:
 
 ```sh
-cargo run -p escope-desktop -- tcp://127.0.0.1:9337
+chmod +x ./embedscope-inspector-*.AppImage
+./embedscope-inspector-*.AppImage
 ```
 
-Start the [software reference device](../start/quick-start.md) first, or replace the endpoint with a firmware serial path or TCP address. Enter the endpoint in the top bar and click **Connect**. The connection loads identity and initial data and subscribes to available logs.
+Start the [software reference device](../start/quick-start.md) with `escope simulate`, or use an Agent's serial path or TCP address. Enter the endpoint in the top bar and click **Connect**. The connection loads identity and initial data and subscribes to available logs.
 
-For a local macOS development bundle, run:
+Developers building from source need Rust 1.95 or newer and the platform dependencies listed in [Build and test](../../development/testing.md).
 
-```sh
-bash scripts/package-macos.sh
-```
-
-The script packages a debug build as `target/EmbedScope Inspector.app`. Platform build requirements are listed in [Build and test](../../development/testing.md).
+## Connect a device
 
 Serial baud is 115200. Check **DTR** before connecting when the device needs asserted DTR. Unchecked means preserve the underlying opener policy. Use the [CLI](../../reference/cli.md) or [SDK](../../reference/sdk.md) for another baud or explicit DTR off. Close any other process using the same physical serial port.
 
@@ -58,7 +63,7 @@ The left navigation provides four pages. Hover over an icon to see its name. The
 2. Compare the highlighted bounds in the image with its geometry and attributes in **Properties**.
 3. In the default **Inspect** mode, click the image to select a hit object directly.
 
-The image also shows display dimensions and frame ID. Missing metrics show **Unavailable**. The Inspector uses installed system CJK fonts as a fallback for Chinese text; it does not download or bundle a system font. Startup still works when no matching font is installed.
+The image also shows display dimensions and frame ID. Missing metrics show **Unavailable**. The Linux AppImage includes a CJK font; Windows and macOS use installed system fonts. Inspector does not download fonts. Text inside a captured device image is rendered by the device.
 
 ## Refresh after a change
 

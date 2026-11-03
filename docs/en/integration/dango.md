@@ -11,17 +11,11 @@ The EmbedScope adapter adds structured logs, metrics, an LVGL object tree, final
 
 ## Prepare the source and toolchain
 
-Use a Dango OS checkout containing `crates/os/src/embedscope/` and the optional `embedscope` feature in `crates/os/Cargo.toml`. The official v0.4.0 firmware does not include this diagnostic Agent. Commands here target source with the adapter enabled.
+Clone [Dango OS](https://github.com/umbrella22/dangoOS) and prepare its firmware toolchain. The application's `embedscope` feature controls diagnostics and is disabled by default.
 
-Place the EmbedScope source alongside the Dango repository to match its current path dependencies:
+The adapter uses `escope-protocol`, `escope-agent`, and `escope-lvgl`, selected together by the application's `embedscope` feature.
 
-```text
-work/
-  EmbedScope/
-  esp-32/
-```
-
-For another layout, adjust the optional `escope-protocol`, `escope-agent`, and `escope-lvgl` paths in the firmware manifest. Use the firmware's `rust-toolchain.toml`, Espressif RISC-V GCC/newlib, and host libclang. The firmware's `.cargo/config.toml` contains local tool paths that may need environment overrides on another machine. Follow the Dango source build instructions for the platform toolchain.
+Use the firmware's `rust-toolchain.toml`, Espressif RISC-V GCC/newlib, and host libclang. The firmware's `.cargo/config.toml` contains local tool paths that may need environment overrides on another machine. Follow the Dango source build instructions for the platform toolchain.
 
 ## Build with the feature
 
@@ -46,7 +40,7 @@ The `cargo fw` alias already includes `--release`. An explicitly enabled feature
 
 The device continues running its installed image. Installing an image without the feature removes the Agent, diagnostic CDC, and capture buffers. Dango's original console logs and OTA remain available.
 
-Build or install the host CLI from the adjacent EmbedScope source as shown in [Quick start](../guide/start/quick-start.md).
+Download the host CLI as shown in [Quick start](../guide/start/quick-start.md).
 
 ## Select the second CDC and assert DTR
 

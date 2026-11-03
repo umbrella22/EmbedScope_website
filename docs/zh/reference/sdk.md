@@ -9,11 +9,11 @@ description: "在 Rust 主机程序中使用 Session 连接设备、订阅日志
 
 ## 添加依赖
 
-当前使用源码 path 依赖，按应用目录调整路径：
+从 crates.io 添加主机 SDK：
 
 ```toml
 [dependencies]
-escope-host = { path = "../EmbedScope/crates/escope-host" }
+escope-host = { version = "0.1.0" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 

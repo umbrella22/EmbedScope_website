@@ -5,11 +5,11 @@ description: "Reference escope-host connection options, typed Session APIs, log 
 
 # Host SDK reference
 
-`escope-host` provides a Tokio-based Rust Session shared by the CLI and Inspector. Use a source path or reviewed Git revision; the crate is currently source-only.
+`escope-host` provides a Tokio-based Rust Session shared by the CLI and Inspector. Add the SDK from crates.io:
 
 ```toml
 [dependencies]
-escope-host = { path = "../EmbedScope/crates/escope-host" }
+escope-host = { version = "0.1.0" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 ```
 

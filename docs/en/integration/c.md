@@ -5,28 +5,26 @@ description: "Link the Rust Agent through a C ABI, configure aligned context sto
 
 # C/C++ integration
 
-`escope-c-api` exposes the Rust Agent through `crates/escope-c-api/include/escope.h`. The firmware supplies transport, scheduling, memory, display, and input.
+`escope-c-api` exposes the Rust Agent through a C ABI. Firmware supplies transport, scheduling, memory, display, and input, includes the matching header, and links a static library compiled for its target.
 
-The library is an allocation-free `no_std` rlib. Firmware integration needs Rust cross-compilation and a final target staticlib wrapper with panic handler, runtime, and linker settings. The repository's host wrapper uses `std` to exercise the ABI; it does not supply a bare-metal runtime.
+## 1. Download and build the C SDK
 
-## 1. Run the host C example
+Download the C SDK ZIP from [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest). It contains:
 
-From the EmbedScope source root:
+- `include/escope.h`: the C/C++ interface.
+- `vendor/`: matching protocol, Agent, and C ABI Rust sources.
+- `Cargo.toml` and `src/`: the static-library wrapper.
 
-```sh
-bash scripts/check-c-api.sh
-```
-
-The script builds the host staticlib wrapper, compiles and links `examples/c/harness.c`, and runs initialization, RX/TX, log, reset, and error checks with the system C compiler. Use this example with the header from the same source revision.
-
-For a bare-metal library check:
+Install Rust 1.88 or newer and the firmware's target toolchain. From the extracted directory, build for the target, for example:
 
 ```sh
 rustup target add riscv32imafc-unknown-none-elf
-cargo check -p escope-c-api --target riscv32imafc-unknown-none-elf
+cargo build --release --locked --target riscv32imafc-unknown-none-elf
 ```
 
-The application still needs its final target link and runtime.
+Replace the example target with the device's actual Rust target. ESP Xtensa uses the appropriate Espressif toolchain. Add `include/` to the C/C++ include path and link `target/<target>/release/libescope_c_sdk.a` into the firmware. Cargo resolves and downloads third-party Rust dependencies.
+
+Match CPU instructions, ABI, linker script, and runtime to the firmware. The wrapper's default panic handler spins; replace it with the board's reset or watchdog policy and retain exactly one Rust panic handler. `--features std` is for host checks. Use the header and Rust SDK from the same release.
 
 ## 2. Configure callbacks and context storage
 
@@ -79,3 +77,13 @@ Publish UTF-8 records with `escope_push_log` from the serialized context task. I
 On transport disconnect, call `escope_reset`. It clears partial RX, pending TX, logs, and subscriptions, calls platform reset, and advances session. Release capture buffers and held synthetic input in the reset callback. A new host starts with Hello. Reset before releasing storage when backend resources are active.
 
 UI callbacks run on the application's UI thread. [Rust integration](./rust.md) describes capability scheduling; [LVGL integration](./lvgl.md) describes native provider, object, display, and input lifetimes.
+
+## Run the host C example
+
+From the EmbedScope source root:
+
+```sh
+bash scripts/check-c-api.sh
+```
+
+The script builds the host staticlib wrapper, compiles and links `examples/c/harness.c`, and runs initialization, RX/TX, log, reset, and error checks with the system C compiler. The host wrapper uses `std`.

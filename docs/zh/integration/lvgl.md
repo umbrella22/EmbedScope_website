@@ -18,7 +18,7 @@ description: "在 UI 线程导出 LVGL 对象树，维护节点 revision，并�
 
 ```toml
 [dependencies]
-escope-lvgl = { path = "../EmbedScope/crates/escope-lvgl" }
+escope-lvgl = { version = "0.1.0" }
 ```
 
 使用原生适配器时增加 `features = ["native"]`。适配器与应用必须使用相同的 LVGL native provider、ABI 和配置。
@@ -98,3 +98,7 @@ escope -d tcp://127.0.0.1:9337 display capture after.png
 ```
 
 把示例入口和点击坐标替换为目标设备的实际值，PNG 文件名需尚不存在。使用 [Inspector](../guide/basic/inspector.md) 可同时查看对象边界与画面；原生适配器测试见 [构建与测试](../development/testing.md)，团子的平台入口见 [团子 OS](./dango.md)。
+
+## 运行 rs_lvgl 接入示例
+
+[rs_lvgl 的 EmbedScope 指南](https://umbrella22.github.io/rs_lvgl_website/guide/embedscope.html)提供基于已发布依赖的真实原生示例，包括 UI 线程接入、固定显示帧、原生指针输入，以及调试开启与正式构建关闭的命令。`embedscope` 是应用拥有的可选 feature；`--release` 不会自动关闭它。

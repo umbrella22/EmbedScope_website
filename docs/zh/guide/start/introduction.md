@@ -37,4 +37,4 @@ CLI 与 Inspector 使用同一套主机 SDK。设备只需接入一个 Agent，�
 
 已有 Agent 的设备从[连接设备](../basic/connection.md)开始。开发固件时，选择 [Rust 接入](../../integration/rust.md)、[C/C++ 接入](../../integration/c.md)或[团子 OS](../../integration/dango.md)。使用 LVGL 和 rs_lvgl 的工程可继续阅读 [LVGL 接入](../../integration/lvgl.md)。
 
-当前版本从源码构建。设备刷写、OTA、文件管理和 ELF 符号解析由目标工程的其他工具承担。
+CLI 与 Inspector 从 [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest) 下载，Rust SDK 通过 crates.io 接入，C/C++ SDK 提供源码 ZIP。设备刷写、OTA、文件管理和 ELF 符号解析由目标工程的其他工具承担。

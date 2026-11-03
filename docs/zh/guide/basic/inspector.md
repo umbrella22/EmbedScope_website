@@ -11,21 +11,26 @@ Inspector 是 EmbedScope 的原生桌面调试工具，提供 UI 检查、结构
 
 图中连接的是软件参考设备，画面与指标为合成数据。连接实机的方法见[团子 OS 接入](../../integration/dango.md)。
 
-## 启动程序
+## 下载与启动
 
-桌面构建需要 Rust 1.95 或更新版本。在 EmbedScope 源码根目录执行：
+从 [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest) 下载 Inspector：
+
+| 系统 | 格式与启动方式 |
+| --- | --- |
+| Linux x86_64 | AppImage；添加执行权限后运行 |
+| Windows x86_64 | 免安装 ZIP；解压后运行程序 |
+| macOS | 应用 ZIP；Apple Silicon 选择 arm64，Intel 选择 x86_64，解压后打开 `.app` |
+
+Linux 可以在下载目录执行以下命令，将文件名替换为下载的 AppImage：
 
 ```sh
-cargo run -p escope-desktop -- tcp://127.0.0.1:9337
+chmod +x ./embedscope-inspector-*.AppImage
+./embedscope-inspector-*.AppImage
 ```
 
-参考设备需先在另一个终端运行 `escope simulate`，完整步骤见[快速开始](../start/quick-start.md)。macOS 可生成本地开发应用包：
+参考设备需先在另一个终端运行 `escope simulate`。启动 Inspector 后，在顶部输入 `tcp://127.0.0.1:9337`。完整参考设备步骤见[快速开始](../start/quick-start.md)。
 
-```sh
-bash scripts/package-macos.sh
-```
-
-产物位于 `target/EmbedScope Inspector.app`。桌面平台依赖见[构建与测试](../../development/testing.md)。
+源码构建面向开发者，需要 Rust 1.95 或更新版本及平台构建依赖，见[构建与测试](../../development/testing.md)。
 
 ## 选择界面语言
 
@@ -63,7 +68,7 @@ bash scripts/package-macos.sh
 
 页面切换后，等布局完成再刷新。树、指标和显示分别顺序采样；revision 变化时会清除旧选择。系统缺测指标显示 `未提供`。
 
-中文标签使用系统已安装的 CJK 字体回退；程序不会下载或安装字体。自绘画面和字体已烘焙在设备截图内，与桌面对象树的文字显示分别处理。
+Linux AppImage 包含 CJK 字体，Windows/macOS 使用系统字体回退。程序不会联网下载字体。设备画面中的文字来自设备截图，与桌面对象树的文字显示分别处理。
 
 ## 复现点击
 

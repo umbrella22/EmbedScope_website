@@ -2,7 +2,7 @@
 
 EmbedScope 的中英文使用、协议和平台接入文档，基于 Rspress 2。产品源码位于 [umbrella22/EmbedScope](https://github.com/umbrella22/EmbedScope)，本站独立维护，可生成静态站点。
 
-文档按指南、设备接入、API 参考与开发四个入口组织。每种语言包含 20 篇正文和首页，路径与侧栏保持对应。首页展示使用 `escope` 捕获的软件参考设备画面，Inspector 指南展示团子 OS 的实际设置页。
+文档按指南、设备接入、API 参考与开发四个入口组织，提供中英文内容。安装指引从 Release 下载开始；设备接入覆盖 Rust、C/C++、LVGL 与团子 OS。
 
 在线文档：<https://umbrella22.github.io/EmbedScope_website/>。
 
@@ -51,9 +51,9 @@ GitHub Pages 使用 `.github/workflows/docs.yml`：推送 main 或手动触发�
 - `theme/index.tsx` 从 `@rspress/core/theme-original` 导出，样式写在 `theme/styles.css`。
 - `theme/components/SwitchAppearance.tsx` 将默认主题开关替换为有名称的原生 button，保留 Rspress 的主题状态与持久化，支持键盘操作。
 - `docs/public/images/reference-capture.png` 来源于产品独立进程 CLI E2E。更新画面时同步首页的计数、帧号和来源说明。
-- `docs/public/images/inspector-dango.jpg` 来源于 Inspector 连接实际团子 OS 设备的截图，裁剪移除了本机保存路径和日志区域。
+- `docs/public/images/inspector-dango.jpg` 来源于 Inspector 连接实际团子 OS 设备的截图。
 - `scripts/legacy-routes.mjs` 在 `postbuild` 为旧版 11 条路径生成两语言静态跳转，保留查询参数与锚点；旧正文不参与搜索和侧栏。
-- 使用说明按任务组织，优先提供前提、操作步骤、预期结果与排错入口。开发计划、执行记录和测试回执保存在产品仓库中。
+- 使用说明按任务组织，提供前提、操作步骤、预期结果与排错入口。
 - 运行命令、能力和 API 与产品源码保持一致；涉及兼容性和测量结果时注明运行环境。
 
 MIT licensed. Dependencies retain their own licenses.

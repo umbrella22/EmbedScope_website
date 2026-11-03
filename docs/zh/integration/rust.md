@@ -7,12 +7,12 @@ description: "在 Rust 固件中实现 Backend 和 Agent 收发循环，接入�
 
 设备侧的最小依赖是 `escope-protocol` 与 `escope-agent`。两者均为无堆分配的 `no_std` 库，通过 `Backend` 访问平台能力，复用固件现有的传输、任务调度与日志器。
 
-当前 crates 尚未发布到 registry。将它们作为源码 path 依赖，或固定到审阅后的 Git revision；下例 path 需按工程位置调整：
+从 crates.io 添加设备侧协议与 Agent，两个库默认兼容 `no_std`：
 
 ```toml
 [dependencies]
-escope-protocol = { path = "../EmbedScope/crates/escope-protocol" }
-escope-agent = { path = "../EmbedScope/crates/escope-agent" }
+escope-protocol = { version = "0.1.0" }
+escope-agent = { version = "0.1.0" }
 ```
 
 ## 先实现身份

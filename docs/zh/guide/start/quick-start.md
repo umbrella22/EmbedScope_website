@@ -1,33 +1,35 @@
 ---
 title: "快速开始"
-description: "从源码安装 escope，连接软件参考设备，完成第一个点击、屏幕捕获和诊断包。"
+description: "安装 escope，连接软件参考设备，完成第一个点击、屏幕捕获和诊断包。"
 ---
 
 # 快速开始
 
-通过本机软件参考设备完成第一次会话，无需准备开发板。以下命令在 EmbedScope 源码根目录执行。
+通过软件参考设备完成第一次会话，无需准备开发板。配置 PATH 后可以在任意工作目录执行以下命令。
 
-## 环境准备
+## 第一步：下载命令行工具
 
-准备 Rust/Cargo 稳定版和平台链接器。可以先检查工具是否可用：
+打开 [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest)，下载适合操作系统与处理器架构的 CLI ZIP：
 
-```sh
-rustc --version
-cargo --version
-```
+| 系统 | 选择 |
+| --- | --- |
+| Linux | x86_64 CLI ZIP |
+| Windows | x86_64 CLI ZIP |
+| macOS | Apple Silicon 选择 arm64，Intel 选择 x86_64 CLI ZIP |
 
-CLI 与设备侧库最低需要 Rust 1.88；桌面 Inspector 最低需要 Rust 1.95。桌面程序和原生 LVGL 的额外依赖见[构建与测试](../../development/testing.md)。
-
-## 第一步：安装命令行工具
-
-当前版本使用源码安装：
+解压到固定目录。macOS 与 Linux 在该目录运行：
 
 ```sh
-cargo install --path crates/escope-cli --locked
-escope --version
+./escope --version
 ```
 
-Cargo 将 `escope` 安装到其 bin 目录。若终端找不到命令，将 Cargo bin 目录加入 PATH，或使用 `cargo build -p escope-cli` 后的 `target/debug/escope`。
+Windows PowerShell 使用：
+
+```powershell
+.\escope.exe --version
+```
+
+将 `escope` 所在目录加入 `PATH` 后，即可在任意工作目录直接执行后续命令。macOS 与 Linux 将目录加入 shell 的 `PATH`；Windows 在用户环境变量 `Path` 中添加该目录，再打开新终端。CLI 二进制无需 Rust 环境。下载文件的 SHA-256 可与同一 Release 中的 `SHA256SUMS` 对照。
 
 ## 第二步：启动参考设备
 
@@ -69,6 +71,16 @@ escope -d tcp://127.0.0.1:9337 diagnose --output first-diagnosis --logs 3
 打开新目录中的 `report.json`，检查 `complete=true` 和空的 `issues`。目录内的 `screen.png` 保存本次采集的画面，报告同时包含身份、日志、指标与 UI 树。参考设备的指标是合成值，缺测字段为 `null`。
 
 体验结束后，在运行参考设备的终端按 Ctrl-C 关闭服务。
+
+## 已有 Rust 环境时的安装方式
+
+也可以通过 Cargo 安装 CLI，需要 Rust 1.88 或更新版本及平台构建依赖：
+
+```sh
+cargo install escope-cli --version '=0.1.1' --locked
+```
+
+源码构建 Inspector、原生 LVGL 或 C/C++ SDK 的工具链要求见[构建与测试](../../development/testing.md)。
 
 ## 下一步
 

@@ -5,20 +5,36 @@ description: "通过 C ABI 将 Rust Agent 接入现有 C 或 C++ 固件，正确
 
 # C/C++ 设备接入
 
-`escope-c-api` 将同一个 Rust Agent 暴露为 C ABI。设备继续使用自己的 HAL、任务和内存分配策略。头文件位于源码仓库的 `crates/escope-c-api/include/escope.h`。
+`escope-c-api` 将 Rust Agent 暴露为 C ABI。设备继续使用自己的 HAL、任务和内存分配策略，接入代码包含配套头文件并链接针对固件目标编译的静态库。
 
-它是无堆分配的 `no_std` rlib。固件需要用 Rust 交叉编译相关代码，并提供最终 staticlib wrapper、目标 panic handler、链接脚本和运行时。
+## 下载并构建 C SDK
 
-## 运行 C 示例
+从 [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest) 下载 C SDK ZIP。压缩包包含：
+
+- `include/escope.h`：C/C++ 公共接口。
+- `vendor/`：配套协议、Agent 与 C ABI 的 Rust 源码。
+- `Cargo.toml` 与 `src/`：生成静态库的包装工程。
+
+使用 Rust 1.88 或更新版本，并安装固件目标的工具链。在解压目录构建，例如：
+
+```sh
+rustup target add riscv32imafc-unknown-none-elf
+cargo build --release --locked --target riscv32imafc-unknown-none-elf
+```
+
+将示例 target 替换为设备使用的实际目标。ESP Xtensa 使用 Espressif 对应工具链。输出为 `target/<target>/release/libescope_c_sdk.a`；在 C/C++ 工程中加入 `include/`，并将该静态库链接进固件。第三方 Rust 依赖由 Cargo 解析和下载。
+
+CPU 指令集、ABI、链接脚本与运行时必须匹配固件。包装工程的默认 panic handler 使用自旋，接入时按设备的复位或看门狗策略替换，并保持唯一的 Rust panic handler。`--features std` 用于主机检查。头文件与 Rust SDK 使用同一发布版本。
+
+## 运行主机 C 示例
 
 在 EmbedScope 源码根目录执行：
 
 ```sh
 bash scripts/check-c-api.sh
-cargo check -p escope-c-api --target riscv32imafc-unknown-none-elf
 ```
 
-第一个命令构建主机 staticlib wrapper，使用系统 C 编译器编译、链接并执行 `examples/c/harness.c`。示例演示初始化、收发和 reset，并检查缓冲容量与错误处理。主机 wrapper 使用 `std`，固件版本需要提供目标运行时。
+该命令构建主机 staticlib wrapper，使用系统 C 编译器编译、链接并执行 `examples/c/harness.c`，覆盖初始化、收发、日志、reset、缓冲容量与错误处理。主机 wrapper 使用 `std`。
 
 ## Context 与回调
 

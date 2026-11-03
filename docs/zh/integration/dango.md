@@ -11,15 +11,9 @@ EmbedScope 的团子适配器提供结构化日志、真实内存指标、UI 树
 
 ## 准备工程
 
-以下命令针对包含 `embedscope` feature 和 `crates/os/src/embedscope/` 的团子源码。官方 v0.4.0 发行固件没有诊断 Agent；从未接入的版本开始时，先按 [Rust 接入](./rust.md)与 [LVGL 接入](./lvgl.md)加入适配器。
+克隆[团子 OS 源码](https://github.com/umbrella22/dangoOS)，按工程的构建说明准备固件工具链。EmbedScope 由应用的 `embedscope` feature 控制，默认关闭。
 
-源码依赖要求两个工程为同级目录：
-
-```text
-workspace/
-├── EmbedScope/
-└── esp-32/       # 团子 OS 工程
-```
+适配器使用 `escope-protocol`、`escope-agent` 与 `escope-lvgl`，由 `embedscope` feature 统一启用。
 
 团子工程使用 Rust 1.99.1、`riscv32imafc-unknown-none-elf`、Espressif RISC-V C 编译器与 libclang。按团子工程的构建说明配置 `.cargo/config.toml` 中的本机工具链路径。rs_lvgl 与 rs_lvgl_ui 使用 0.3.1，适配器复用同一 LVGL 9.6 provider。
 
@@ -49,6 +43,8 @@ cargo build -p os --bin os-fw --release \
 设备运行已烧入的固件。安装不带 feature 的镜像后，Agent、诊断 CDC 与采集缓冲不再存在；原控制台日志和 OTA 仍由团子系统提供。
 
 ## 连接诊断接口
+
+先按[快速开始](../guide/start/quick-start.md)安装 `escope`。
 
 安装包含 Agent 的固件后，枚举端口：
 

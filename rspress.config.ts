@@ -13,7 +13,7 @@ export default defineConfig({
   description: 'Rust tools for embedded diagnostics: logs, metrics, UI inspection, display capture and input.',
   lang: 'zh',
   icon: '/favicon.svg',
-  logo: '/logo.svg',
+  logo: { light: '/logo.svg', dark: '/logo-dark.svg' },
   logoText: 'EmbedScope',
   locales: [
     {

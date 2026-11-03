@@ -5,10 +5,9 @@ description: "Look up escope commands, endpoint and DTR options, defaults, numer
 
 # CLI reference
 
-The Cargo package is `escope-cli`; the executable is `escope`. Install from the current source checkout:
+The executable is `escope`. Download a CLI ZIP from [GitHub Releases](https://github.com/umbrella22/EmbedScope/releases/latest), extract it, and add the executable directory to `PATH`. Installation and a first session are covered in [Quick start](../guide/start/quick-start.md).
 
 ```sh
-cargo install --path crates/escope-cli --locked
 escope --help
 ```
 

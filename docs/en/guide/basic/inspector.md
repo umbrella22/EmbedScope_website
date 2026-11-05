@@ -63,6 +63,8 @@ The left navigation provides four pages. Hover over an icon to see its name. The
 2. Compare the highlighted bounds in the image with its geometry and attributes in **Properties**.
 3. In the default **Inspect** mode, click the image to select a hit object directly.
 
+Each subtree is displayed together in hierarchy order, preserving provider sibling order. Filtering retains matching nodes' ancestor paths. Inspect mode selects overlapping bounds in reverse hierarchy paint order; sent taps are resolved by the device's input system.
+
 The image also shows display dimensions and frame ID. Missing metrics show **Unavailable**. The Linux AppImage includes a CJK font; Windows and macOS use installed system fonts. Inspector does not download fonts. Text inside a captured device image is rendered by the device.
 
 ## Refresh after a change

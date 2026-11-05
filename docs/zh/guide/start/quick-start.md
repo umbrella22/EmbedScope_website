@@ -77,7 +77,7 @@ escope -d tcp://127.0.0.1:9337 diagnose --output first-diagnosis --logs 3
 也可以通过 Cargo 安装 CLI，需要 Rust 1.88 或更新版本及平台构建依赖：
 
 ```sh
-cargo install escope-cli --version '=0.1.1' --locked
+cargo install escope-cli --version '=0.2.0' --locked
 ```
 
 源码构建 Inspector、原生 LVGL 或 C/C++ SDK 的工具链要求见[构建与测试](../../development/testing.md)。

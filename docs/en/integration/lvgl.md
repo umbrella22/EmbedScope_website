@@ -1,6 +1,6 @@
 ---
 title: "LVGL, display, and input"
-description: "Export an existing LVGL tree on the UI thread, maintain revisions and identities, and connect final display capture and unified input."
+description: "Inspect native widget and layout kinds with the rs_lvgl_sys 0.4 provider, maintain UI-thread revisions, and connect display capture and input."
 ---
 
 # LVGL, display, and input
@@ -12,16 +12,18 @@ description: "Export an existing LVGL tree on the UI thread, maintain revisions 
 | Adapter | Suitable source | Output |
 | --- | --- | --- |
 | Custom `TreeSource` | Widget registry, semantic metadata, or an owned tree snapshot | Platform-defined names, kinds, geometry, and flags |
-| `native::NativeTree` | Existing `rs_lvgl 0.3.1` / LVGL 9.6 objects | Generic `lv_obj` kinds, empty names, geometry, and native state bits |
+| `native::NativeTree` | LVGL 9.6 objects using `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` 0.4.0 | Enabled widget and layout kinds, empty names, geometry, and native state bits |
 
 The default library does not link a native LVGL provider:
 
 ```toml
 [dependencies]
-escope-lvgl = { version = "0.1.0" }
+escope-lvgl = { version = "0.2.0" }
 ```
 
-Enable `features = ["native"]` for NativeTree. The adapter and application must use the same actual LVGL provider, ABI, and configuration. Linking a separate copy does not give access to the application's native object state.
+Enable `features = ["native"]` for NativeTree. The adapter depends directly on `rs_lvgl_sys` 0.4.0 and shares the application's actual LVGL provider, ABI, and configuration. It does not require the higher-level `rs_lvgl` style API.
+
+Upgrading a native integration from EmbedScope 0.1.x requires upgrading the application's 0.3 provider to 0.4.0 together with the adapter. Applications retaining the older provider can continue using SDK 0.1.x. Custom `TreeSource` implementations remain independent of the native provider. The wire protocol remains v1, so existing devices can use the new CLI and Inspector.
 
 ## 2. Route requests to the UI thread
 
@@ -54,6 +56,10 @@ let mut bridge = UiBridge::new(source);
 ```
 
 The const parameter is the native walk capacity. A larger tree returns `Capacity`. Stop the adapter before deleting its root or deinitializing LVGL.
+
+NativeTree recognizes enabled widget kinds such as `label`, `button`, `slider`, and `image`. Plain native objects with Flex or Grid layouts appear as `row`, `column`, or `grid`; other objects appear as `lv_obj`. Widget class takes priority over layout, so a button with Flex remains a `button`. Configurations with Flex or Grid disabled are supported.
+
+The tree includes native host objects and internal widget nodes. Geometry comes from laid-out native objects, and flags contain native state bits. Names are empty. Supply an application-defined `TreeSource` for label text, declarative View keys, or component boundaries.
 
 After node, property, layout, or state changes and before the next query, notify the source:
 

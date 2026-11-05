@@ -1,6 +1,6 @@
 ---
 title: "Inspect the UI tree"
-description: "Read UI object geometry and hierarchy, compare revisions after a page change, and understand the limits of native and custom tree metadata."
+description: "Inspect native widget and layout kinds, search with hierarchy context, select overlapping objects, and compare node revisions."
 ---
 
 # Inspect the UI tree
@@ -40,8 +40,10 @@ Interpret an object ID together with the session and revision. Reconnection or a
 
 ## Understand metadata coverage
 
-The general `NativeTree` adapter exports generic `lv_obj` kinds, empty names, geometry, and native state bits. It does not automatically decode label text, specialized widget classes, or declarative View structure. A custom `TreeSource` supplies those semantics.
+In SDK 0.2.0, `NativeTree` exports enabled widget kinds such as `label` and `button`, and `row`, `column`, or `grid` for plain layout containers. Other objects appear as `lv_obj`. Names remain empty; geometry and flags come from native LVGL objects. The tree retains native host objects and internal widget nodes. An application-defined `TreeSource` can supply label text, declarative View keys, and component boundaries.
 
 The Dango integration uses a custom tree that includes widget kinds and label text for its native and Lua LVGL pages. Its Home character canvas is drawn outside the LVGL object tree, so the display capture provides additional visible content.
 
 Use [Desktop Inspector](./inspector.md) to select a node and see its bounds over captured pixels. See [LVGL integration](../../integration/lvgl.md) for UI-thread access, revisions, and deletion hooks.
+
+Inspector displays each subtree together and preserves provider sibling order. Searching by kind, name, or ID retains matching nodes' ancestor paths. Inspect mode searches overlapping bounds in reverse hierarchy paint order. Exact device input behavior for transparent regions or custom drawing remains defined by the device input system.

@@ -66,7 +66,7 @@ Agent 不安装日志器、不建立 USB 描述符，也不取代原有更新协
 
 `UiBridge<T: TreeSource>` 在 UI 线程检查非零 revision。树变化使旧查询返回 Stale。SDK 最多尝试三轮，拒绝重复 cursor/ID、缺失 parent、parent 环和超过 4096 节点。
 
-native 适配器访问现有 `rs_lvgl::sys`，提供通用对象几何和 state；自定义 TreeSource 提供额外的语义字段。NodeRegistry 的 generation 防止删除后地址复用恢复旧 ID，耗尽槽位会退休。
+native 适配器直接使用应用共享的 `rs_lvgl_sys` 0.4.0 provider，根据有效配置识别控件类型和普通 Flex/Grid 布局，同时读取原生几何和 state。树保留原生 host 与内部节点；自定义 TreeSource 提供文本、View key 和组件边界等语义字段。NodeRegistry 的 generation 防止删除后地址复用恢复旧 ID，耗尽槽位会退休。
 
 树提供对象元数据，截图提供像素。LVGL shadow、局部 view snapshot 与最终屏幕对应不同渲染范围，由平台根据显示路径选择捕获来源。
 

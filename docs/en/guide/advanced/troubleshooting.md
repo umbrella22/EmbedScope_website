@@ -44,7 +44,7 @@ For `diagnose`, each requested log has a fixed three-second wait. Reduce `--logs
 
 Repeated `Stale` can mean the tree changes during traversal. Run queries at UI safe points. Advance revision after actual node, layout, property, or state changes, without advancing it merely because a node was read.
 
-Generic `lv_obj` kinds and empty names are the current general NativeTree output. Label text, widget classes, and declarative metadata need a custom `TreeSource`. Deletion hooks must remove registry entries before an address is reused. Stop all reads before freeing a root or deinitializing LVGL.
+SDK 0.2.0 NativeTree identifies enabled widget classes and plain Flex/Grid layouts; unclassified native objects appear as `lv_obj`. Names remain empty. Label text, View keys, and component boundaries require an application-defined `TreeSource`. Check the SDK version and actual provider when an older integration reports only `lv_obj`. Deletion hooks must remove registry entries before an address is reused. Stop all reads before freeing a root or deinitializing LVGL.
 
 ## Tree and screenshot show different pages
 

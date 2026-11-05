@@ -11,8 +11,8 @@ description: "在 Rust 固件中实现 Backend 和 Agent 收发循环，接入�
 
 ```toml
 [dependencies]
-escope-protocol = { version = "0.1.0" }
-escope-agent = { version = "0.1.0" }
+escope-protocol = { version = "0.2.0" }
+escope-agent = { version = "0.2.0" }
 ```
 
 ## 先实现身份

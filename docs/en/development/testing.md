@@ -55,7 +55,16 @@ cargo test --workspace
 cargo test -p escope-lvgl --features native -- --test-threads=1
 ```
 
-Workspace tests cover protocol, Agent, host, C ABI, UI bridge, and desktop behavior. Native LVGL tests use real native objects with a memory display and run serially because LVGL has global state. They do not exercise a physical panel or an external provider configuration.
+Workspace tests cover protocol, Agent, host, C ABI, UI bridge, and desktop behavior, including subtree order, ancestor-preserving search, and overlapping-object selection. Native LVGL tests verify widget/layout classification, reads, deletion, and revision with a real memory display. They run serially because LVGL has global state.
+
+An independent consumer uses registry `rs_lvgl` / `rs_lvgl_ui` 0.4.0 to build a real 320×240 memory display. It verifies widget kinds, native host hierarchy, padding-derived geometry, and stale revisions. Separate configuration probes exercise providers with no layouts, Grid only, and Flex only:
+
+```sh
+cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --locked -- --test-threads=1
+python3 scripts/check-lvgl-config.py
+```
+
+Before publication, `python3 scripts/release.py verify` runs the same native UI consumer against extracted SDK archives. Post-publication registry verification uses crates.io dependencies only. Both paths require a single `rs_lvgl_sys` 0.4.0 provider. These tests do not exercise a physical panel.
 
 ## Exercise the CLI end to end
 
@@ -91,7 +100,7 @@ The target check covers default library features without a host runtime. It does
 bash scripts/check.sh
 ```
 
-The gate runs formatting, workspace and native clippy, workspace tests, serial native LVGL tests, RISC-V library compilation, CLI E2E, and the C harness. Install the components and target first.
+The gate runs formatting, workspace and native clippy, workspace/native tests, the 0.4 UI consumer, three LVGL configuration probes, RISC-V library compilation, CLI E2E, and the C harness. Install the components and target first.
 
 Individual static checks are:
 

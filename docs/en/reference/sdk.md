@@ -9,7 +9,7 @@ description: "Reference escope-host connection options, typed Session APIs, log 
 
 ```toml
 [dependencies]
-escope-host = { version = "0.1.0" }
+escope-host = { version = "0.2.0" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 ```
 

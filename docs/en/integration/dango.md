@@ -70,7 +70,7 @@ escope -d /dev/cu.usbmodemmosaico_s31_r13 --dtr on ui tree
 escope -d /dev/cu.usbmodemmosaico_s31_r13 --dtr on display capture dango-before-01.png
 ```
 
-The Dango adapter builds a custom owned tree on the UI thread. It includes widget kinds and label text for native and Lua LVGL pages. This is additional platform metadata beyond the general NativeTree adapter's generic `lv_obj` and empty names.
+The Dango adapter builds a custom owned tree on the UI thread. It includes widget kinds, label text, and page names for native and Lua LVGL pages. Its application metadata is independent of NativeTree's class/layout classification and empty names.
 
 Home character drawing lives outside the LVGL object tree. Capture reads a fixed mirror of the last completed final display upload, covering Home, normal screens, and slide composition. It is not panel GRAM readback or a camera observation.
 

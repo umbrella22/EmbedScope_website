@@ -79,7 +79,7 @@ The new `diagnosis-01` directory contains `report.json` and `screen.png`. Check 
 Cargo is an alternative for machines with Rust 1.88 or newer and the platform's build dependencies:
 
 ```sh
-cargo install escope-cli --version '=0.2.0' --locked
+cargo install escope-cli --version '=0.3.0' --locked
 ```
 
 See [Build and test](../../development/testing.md) for toolchains used to build the Inspector, native LVGL adapter, and C/C++ SDK from source.

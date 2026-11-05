@@ -13,7 +13,7 @@ description: "在 Rust 主机程序中使用 Session 连接设备、订阅日志
 
 ```toml
 [dependencies]
-escope-host = { version = "0.2.0" }
+escope-host = { version = "0.3.0" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 

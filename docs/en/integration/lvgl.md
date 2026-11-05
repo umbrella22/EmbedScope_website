@@ -1,6 +1,6 @@
 ---
 title: "LVGL, display, and input"
-description: "Inspect native widget and layout kinds with the rs_lvgl_sys 0.4 provider, maintain UI-thread revisions, and connect display capture and input."
+description: "Inspect native widget and layout kinds with the rs_lvgl_sys 0.5 provider, maintain UI-thread revisions, and connect display capture and input."
 ---
 
 # LVGL, display, and input
@@ -12,18 +12,26 @@ description: "Inspect native widget and layout kinds with the rs_lvgl_sys 0.4 pr
 | Adapter | Suitable source | Output |
 | --- | --- | --- |
 | Custom `TreeSource` | Widget registry, semantic metadata, or an owned tree snapshot | Platform-defined names, kinds, geometry, and flags |
-| `native::NativeTree` | LVGL 9.6 objects using `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` 0.4.0 | Enabled widget and layout kinds, empty names, geometry, and native state bits |
+| `native::NativeTree` | LVGL 9.6 objects using `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` 0.5.0 | Enabled widget and layout kinds, empty names, geometry, and native state bits |
 
 The default library does not link a native LVGL provider:
 
 ```toml
 [dependencies]
-escope-lvgl = { version = "0.2.0" }
+escope-lvgl = { version = "0.3.0" }
 ```
 
-Enable `features = ["native"]` for NativeTree. The adapter depends directly on `rs_lvgl_sys` 0.4.0 and shares the application's actual LVGL provider, ABI, and configuration. It does not require the higher-level `rs_lvgl` style API.
+Enable `features = ["native"]` for NativeTree. The adapter depends directly on `rs_lvgl_sys` 0.5.0 and shares the application's actual LVGL provider, ABI, and configuration. It does not require the higher-level `rs_lvgl` style API.
 
-Upgrading a native integration from EmbedScope 0.1.x requires upgrading the application's 0.3 provider to 0.4.0 together with the adapter. Applications retaining the older provider can continue using SDK 0.1.x. Custom `TreeSource` implementations remain independent of the native provider. The wire protocol remains v1, so existing devices can use the new CLI and Inspector.
+The native adapter and application use the same provider version line:
+
+| EmbedScope SDK | `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` |
+| --- | --- |
+| 0.3.x | 0.5.x |
+| 0.2.x | 0.4.x |
+| 0.1.x | 0.3.x |
+
+Upgrade the SDK, application rs_lvgl dependencies, and lockfile together. Confirm that the dependency graph contains one `links = "lvgl"` provider. Custom `TreeSource` implementations are independent of this matrix. The device wire protocol remains v1; the CLI and Inspector use protocol negotiation and device-advertised capabilities to select available operations.
 
 ## 2. Route requests to the UI thread
 
@@ -60,6 +68,10 @@ The const parameter is the native walk capacity. A larger tree returns `Capacity
 NativeTree recognizes enabled widget kinds such as `label`, `button`, `slider`, and `image`. Plain native objects with Flex or Grid layouts appear as `row`, `column`, or `grid`; other objects appear as `lv_obj`. Widget class takes priority over layout, so a button with Flex remains a `button`. Configurations with Flex or Grid disabled are supported.
 
 The tree includes native host objects and internal widget nodes. Geometry comes from laid-out native objects, and flags contain native state bits. Names are empty. Supply an application-defined `TreeSource` for label text, declarative View keys, or component boundaries.
+
+The rs_lvgl_ui 0.5 `typed::...` constructors, `child_if`, `binding`, and component slots produce ordinary LVGL objects. Inspector displays their native parent-child relationships. Slots add no wrapper nodes; conditional children appear when mounted. Publish a new revision after event handling, application updates, and reconciliation complete so queries read the resulting geometry and state.
+
+`NativeTree` traverses only the root passed to its constructor. Dialogs mounted through `App::overlay` belong to the LVGL top layer, a separate root from the active screen. Select `lv_layer_top()` as the root on the UI thread to inspect those dialogs. An application-defined `TreeSource` can manage node identities and hierarchy when exporting multiple layers together.
 
 After node, property, layout, or state changes and before the next query, notify the source:
 

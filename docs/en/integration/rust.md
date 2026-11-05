@@ -13,8 +13,8 @@ Add the protocol and Agent from crates.io. Both support `no_std` by default:
 
 ```toml
 [dependencies]
-escope-protocol = { version = "0.2.0" }
-escope-agent = { version = "0.2.0" }
+escope-protocol = { version = "0.3.0" }
+escope-agent = { version = "0.3.0" }
 ```
 
 Reuse the application's transport and logger. A dedicated UART or USB CDC stream can carry binary protocol frames without changing an existing console or update protocol.

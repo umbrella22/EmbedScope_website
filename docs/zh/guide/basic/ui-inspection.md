@@ -36,7 +36,7 @@ escope -d tcp://127.0.0.1:9337 --json ui tree
 | 适配器 | 元数据 |
 | --- | --- |
 | 自定义 `TreeSource` | 由应用定义类型、名称和几何 |
-| `NativeTree`（SDK 0.2.0） | 启用的控件类型、普通对象的 `row` / `column` / `grid` 布局、几何与 state，名称为空 |
+| `NativeTree`（SDK 0.3.0） | 启用的控件类型、普通对象的 `row` / `column` / `grid` 布局、几何与 state，名称为空 |
 | 团子 OS 平台树 | 真实 LVGL 类名、label 文本、页面名称和几何 |
 
-rs_lvgl_ui 的声明式 View 结构不会自动作为另一棵树导出。需要应用语义时，可扩展元数据，见 [LVGL 与 rs_lvgl 接入](../../integration/lvgl.md)。
+rs_lvgl_ui 的声明式 View 结构不会自动作为另一棵树导出；typed 构造器、条件子节点和组件插槽显示为它们生成的原生对象。`App::overlay` 的弹窗位于独立 top layer，只遍历活动 screen 时不包含它。根对象选择与应用语义扩展见 [LVGL 与 rs_lvgl 接入](../../integration/lvgl.md)。

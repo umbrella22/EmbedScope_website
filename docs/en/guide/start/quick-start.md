@@ -1,6 +1,6 @@
 ---
 title: "Quick start"
-description: "Download escope, connect to the software reference device, tap its counter, and save a PNG and diagnosis directory."
+description: "Download the escope binary, configure PATH, and use the synthetic reference device to connect, tap, capture pixels, and export a diagnosis."
 ---
 
 # Quick start
@@ -41,7 +41,7 @@ In the first terminal:
 escope simulate
 ```
 
-Leave it running. Its output identifies `tcp://127.0.0.1:9337` as a software reference endpoint and reports `physical_device: false`.
+Leave it running. Its output identifies `tcp://127.0.0.1:9337` as a software reference endpoint and reports `physical_device: false`. The reference device generates synthetic data; it does not run an application's LVGL interface.
 
 ## 4. Check identity and find the control
 
@@ -79,7 +79,7 @@ The new `diagnosis-01` directory contains `report.json` and `screen.png`. Check 
 Cargo is an alternative for machines with Rust 1.88 or newer and the platform's build dependencies:
 
 ```sh
-cargo install escope-cli --version '=0.3.0' --locked
+cargo install escope-cli --version '=0.4.0' --locked
 ```
 
 See [Build and test](../../development/testing.md) for toolchains used to build the Inspector, native LVGL adapter, and C/C++ SDK from source.

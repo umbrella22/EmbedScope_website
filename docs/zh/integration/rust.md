@@ -1,6 +1,6 @@
 ---
 title: "Rust 设备接入"
-description: "在 Rust 固件中实现 Backend 和 Agent 收发循环，接入字节传输、日志、UI 与显示，并处理断线和资源释放。"
+description: "从 crates.io 添加 no_std Agent，在 Rust 固件中实现 Backend、完整帧收发、UI 任务调度与断线资源释放。"
 ---
 
 # Rust 设备接入
@@ -11,8 +11,8 @@ description: "在 Rust 固件中实现 Backend 和 Agent 收发循环，接入�
 
 ```toml
 [dependencies]
-escope-protocol = { version = "0.3.0" }
-escope-agent = { version = "0.3.0" }
+escope-protocol = { version = "0.4.0" }
+escope-agent = { version = "0.4.0" }
 ```
 
 ## 先实现身份

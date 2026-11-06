@@ -1,6 +1,6 @@
 ---
 title: "Rust integration"
-description: "Add a minimal no_std Agent, connect a complete-frame byte transport, and implement platform capabilities with correct task and reset lifecycles."
+description: "Add the no_std Agent from crates.io, implement a platform Backend, and connect complete-frame transport, UI scheduling, and reset cleanup."
 ---
 
 # Rust integration
@@ -13,8 +13,8 @@ Add the protocol and Agent from crates.io. Both support `no_std` by default:
 
 ```toml
 [dependencies]
-escope-protocol = { version = "0.3.0" }
-escope-agent = { version = "0.3.0" }
+escope-protocol = { version = "0.4.0" }
+escope-agent = { version = "0.4.0" }
 ```
 
 Reuse the application's transport and logger. A dedicated UART or USB CDC stream can carry binary protocol frames without changing an existing console or update protocol.

@@ -1,6 +1,6 @@
 ---
 title: "故障排查"
-description: "按连接超时、端口占用、日志空缺、Busy 和截图异常定位 EmbedScope 常见问题。"
+description: "排查连接超时、端口占用、原生 provider 不匹配、空节点名称、日志空缺、Busy 和截图异常。"
 ---
 
 # 故障排查
@@ -40,7 +40,7 @@ escope -d tcp://127.0.0.1:9337 logs --follow --level 5
 
 树在遍历期间变化。等待页面稳定后再次读取；主机最多重试三轮。接入代码需要在 UI 线程读取并维护一致 revision，节点删除后旧引用不可继续使用。连续动画并不要求每次像素更新都改变对象树。
 
-SDK 0.3.0 的 NativeTree 会识别已启用的控件和普通 Flex/Grid 布局，其余原生对象显示为 `lv_obj`。名称为空是原生适配器的正常输出；文本、View key 与组件边界由应用 TreeSource 提供。旧接入只显示 `lv_obj` 时，先检查 SDK 版本及实际 provider；EmbedScope 0.3.x 的 native 适配器与应用需统一使用 0.5.x provider，兼容矩阵见 [LVGL 接入](../../integration/lvgl.md)。
+SDK 0.4.0 的 NativeTree 会识别已启用的控件和普通 Flex/Grid 布局，其余原生对象显示为 `lv_obj`。名称为空是原生适配器的正常输出；文本、View key 与组件边界由应用 TreeSource 提供。旧接入只显示 `lv_obj` 时，先检查 SDK 版本及实际 provider；EmbedScope 0.4.x 的 native 适配器与应用需统一使用 0.6.x provider，兼容矩阵见 [LVGL 接入](../../integration/lvgl.md)。
 
 ## 点击成功但界面没有变化
 

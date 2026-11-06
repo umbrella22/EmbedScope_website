@@ -1,6 +1,6 @@
 ---
 title: "构建与测试"
-description: "配置 Rust 与平台依赖，构建 CLI 和 Inspector，运行 workspace、LVGL、C ABI、端到端与裸机交叉编译检查。"
+description: "配置 Rust 与平台依赖，构建 CLI 和 Inspector，运行 rs_lvgl 0.6 原生消费测试、C ABI、端到端与裸机检查。"
 ---
 
 # 构建与测试
@@ -45,7 +45,7 @@ CLI 位于 `target/debug/escope`，Inspector 位于 `target/debug/escope-desktop
 cargo run -p escope-desktop -- tcp://127.0.0.1:9337
 ```
 
-以上两个命令分别在不同终端执行。需要优化构建时，为 cargo build 增加 `--release`，产物位于 `target/release/`。
+以上两个命令分别在不同终端执行。`simulate` 提供合成数据，独立于 LVGL provider。需要优化构建时，为 cargo build 增加 `--release`，产物位于 `target/release/`。
 
 ## 运行测试
 
@@ -56,15 +56,18 @@ cargo test -p escope-lvgl --features native -- --test-threads=1
 
 workspace 测试覆盖协议、Agent、主机和桌面 worker，包括子树顺序、搜索祖先路径和重叠对象选择。native LVGL 测试使用内存显示，覆盖控件与布局分类、对象读取、删除和 revision；它使用全局 LVGL 状态，因此串行执行。
 
-独立消费工程使用 crates.io 的 `rs_lvgl` / `rs_lvgl_ui` 0.5.0 构建真实 320×240 内存显示，验证声明式界面的节点类型、host 层级、padding 几何和过期 revision。`composition` 测试覆盖 typed 构造器、组件插槽、条件子节点、受控输入协调，以及 top layer 弹窗。配置探针分别验证无布局、仅 Grid 和仅 Flex 的 provider：
+独立消费工程使用 crates.io 的 `rs_lvgl` / `rs_lvgl_ui` 0.6.0 构建真实 320×240 内存显示，验证声明式界面的节点类型、host 层级、padding 几何和过期 revision。`composition` 测试覆盖 typed 构造器、组件插槽、条件子节点、受控输入协调，以及 top layer 弹窗。
+
+`api-0-6` feature 包含 `composition`，并增加 `container`、`progress_bar`、`message_box`、`animated_image` 等新版构造器，以及 `Style::plain`、独立 Flex 对齐和语义部件样式的验证。测试平台提供 RGB 内存显示和原生 Pointer，检查输入驱动应用更新后的真实像素、原生类型、几何与 revision。配置探针分别验证无布局、仅 Grid 和仅 Flex 的 provider：
 
 ```sh
 cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --locked -- --test-threads=1
 cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --features composition --locked -- --test-threads=1
+cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --features api-0-6 --locked -- --test-threads=1
 python3 scripts/check-lvgl-config.py
 ```
 
-发布前，`python3 scripts/release.py verify` 使用解包后的 SDK 运行同一原生 UI 消费测试；发布后的 registry 检查仅使用 crates.io 依赖。两种路径都要求单一 `rs_lvgl_sys` 0.5.0 provider。
+发布前，`python3 scripts/release.py verify` 使用解包后的 SDK 运行同一原生 UI 消费测试；发布后的 registry 检查仅使用 crates.io 依赖。两种路径都要求单一 `rs_lvgl_sys` 0.6.0 provider。
 
 CLI 端到端测试在独立进程中启动参考设备，检查命令、JSON、点击、PNG 与诊断包：
 
@@ -104,7 +107,7 @@ cargo run -p escope-agent --example poll_device
 bash scripts/check.sh
 ```
 
-脚本依次执行格式、两组 clippy、workspace 与 native LVGL 测试、0.5 UI 消费测试、三种 LVGL 配置探针、RISC-V 库检查、CLI E2E 与 C harness。上面的工具和裸机 target 需要预先安装。
+脚本依次执行格式、两组 clippy、workspace 与 native LVGL 测试、0.6 UI 消费测试、三种 LVGL 配置探针、RISC-V 库检查、CLI E2E 与 C harness。上面的工具和裸机 target 需要预先安装。
 
 单独运行静态检查：
 

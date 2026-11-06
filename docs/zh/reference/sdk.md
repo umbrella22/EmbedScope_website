@@ -1,6 +1,6 @@
 ---
 title: "主机 SDK"
-description: "在 Rust 主机程序中使用 Session 连接设备、订阅日志、并发请求和捕获显示，并处理错误与取消。"
+description: "从 crates.io 添加 escope-host，通过共享 Session 连接设备、订阅日志、并发请求与捕获显示，并处理取消和错误。"
 ---
 
 # 主机 SDK
@@ -13,7 +13,7 @@ description: "在 Rust 主机程序中使用 Session 连接设备、订阅日志
 
 ```toml
 [dependencies]
-escope-host = { version = "0.3.0" }
+escope-host = { version = "0.4.0" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: "Inspect the UI tree"
-description: "Inspect native widget and layout kinds, search with hierarchy context, select overlapping objects, and compare node revisions."
+description: "Relate UI constructors to native widget kinds, inspect layout, search with hierarchy context, select overlapping objects, and compare revisions."
 ---
 
 # Inspect the UI tree
@@ -40,9 +40,11 @@ Interpret an object ID together with the session and revision. Reconnection or a
 
 ## Understand metadata coverage
 
-In SDK 0.3.0, `NativeTree` exports enabled widget kinds such as `label` and `button`, and `row`, `column`, or `grid` for plain layout containers. Other objects appear as `lv_obj`. Names remain empty; geometry and flags come from native LVGL objects. The tree retains native host objects and internal widget nodes. An application-defined `TreeSource` can supply label text, declarative View keys, and component boundaries.
+In SDK 0.4.0, `NativeTree` exports enabled widget kinds such as `label` and `button`, and `row`, `column`, or `grid` for plain layout containers. Other objects appear as `lv_obj`. Names remain empty; geometry and flags come from native LVGL objects. The tree retains native host objects and internal widget nodes. An application-defined `TreeSource` can supply label text, declarative View keys, and component boundaries.
 
 rs_lvgl_ui typed constructors, conditional children, and component slots appear as the native objects they produce. `App::overlay` dialogs belong to a separate top-layer root and are absent from a traversal rooted at the active screen. See [LVGL integration](../../integration/lvgl.md) for root selection and application metadata.
+
+The rs_lvgl_ui 0.6 constructors include `container()`, `progress_bar(...)`, `message_box(...)`, and `animated_image(...)`. Inspector retains their native kinds: `lv_obj` (or a layout kind), `bar`, `msgbox`, and `animimage`. Higher-level API renames do not rename these native kinds.
 
 The Dango integration uses a custom tree that includes widget kinds and label text for its native and Lua LVGL pages. Its Home character canvas is drawn outside the LVGL object tree, so the display capture provides additional visible content.
 

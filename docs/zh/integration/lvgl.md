@@ -1,6 +1,6 @@
 ---
 title: "LVGL 接入"
-description: "使用 rs_lvgl_sys 0.5 导出原生控件与布局类型，在 UI 线程维护树和 revision，并接入显示捕获与输入。"
+description: "使用 rs_lvgl_sys 0.6 导出原生控件与布局类型，在 UI 线程维护树和 revision，并接入显示捕获与输入。"
 ---
 
 # LVGL 接入
@@ -12,21 +12,22 @@ description: "使用 rs_lvgl_sys 0.5 导出原生控件与布局类型，在 UI 
 | 方式 | 适用场景 | 提供的接口 |
 | --- | --- | --- |
 | 自定义元数据 | 已有控件注册表，或需要名称、语义类型等应用信息 | `TreeSource`、`UiBridge`、`NodeRegistry` |
-| 原生 LVGL 对象 | 使用 `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` 0.5.0 的 LVGL 9.6 应用 | `native::NativeTree`，启用 `native` feature |
+| 原生 LVGL 对象 | 使用 `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` 0.6.0 的 LVGL 9.6 应用 | `native::NativeTree`，启用 `native` feature |
 
 默认依赖不链接 LVGL：
 
 ```toml
 [dependencies]
-escope-lvgl = { version = "0.3.0" }
+escope-lvgl = { version = "0.4.0" }
 ```
 
-使用原生适配器时增加 `features = ["native"]`。适配器直接依赖 `rs_lvgl_sys` 0.5.0，与应用共享同一 LVGL provider、ABI 和配置。它不需要高层 `rs_lvgl` 样式 API。
+使用原生适配器时增加 `features = ["native"]`。适配器直接依赖 `rs_lvgl_sys` 0.6.0，与应用共享同一 LVGL provider、ABI 和配置。它不需要高层 `rs_lvgl` 样式 API。
 
 原生适配器与应用使用同一版本线的 provider：
 
 | EmbedScope SDK | `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` |
 | --- | --- |
+| 0.4.x | 0.6.x |
 | 0.3.x | 0.5.x |
 | 0.2.x | 0.4.x |
 | 0.1.x | 0.3.x |
@@ -72,7 +73,18 @@ NativeTree 根据应用实际启用的 LVGL 控件输出 `label`、`button`、`s
 
 树保留原生 host 对象和控件内部节点；节点几何来自完成布局后的原生对象，state 使用原生位值。名称为空，label 文本、声明式 View key 和组件边界由应用的自定义 `TreeSource` 提供。
 
-rs_lvgl_ui 0.5 的 `typed::...`、`child_if`、`binding` 和组件插槽最终生成普通 LVGL 对象，Inspector 沿原生父子关系显示它们。插槽本身不增加包装节点；条件子节点在实际挂载后进入树。控件事件触发应用更新与协调后，再发布新的 revision，可读取协调完成后的几何与状态。
+rs_lvgl_ui 0.6 的 `typed::...`、`child_if`、`binding` 和组件插槽最终生成普通 LVGL 对象，Inspector 沿原生父子关系显示它们。插槽本身不增加包装节点；条件子节点在实际挂载后进入树。控件事件触发应用更新与协调后，再发布新的 revision，可读取协调完成后的几何与状态。
+
+0.6 的 UI 构造器名称与 Inspector 的原生 `kind` 分属不同接口：
+
+| rs_lvgl_ui 构造器 | Inspector 原生 `kind` |
+| --- | --- |
+| `container()` | `lv_obj`；设置 Flex/Grid 后按布局输出 `row`、`column` 或 `grid` |
+| `progress_bar(...)` | `bar` |
+| `message_box(...)` | `msgbox` |
+| `animated_image(...)` | `animimage` |
+
+这些 UI 改名不改变低层 `rs_lvgl`、LVGL C 名称或 `widget-bar`、`widget-msgbox`、`widget-animimage` 等 Cargo feature。样式、单位和控件部件的应用代码迁移见 [rs_lvgl_ui 0.6 迁移指南](https://umbrella22.github.io/rs_lvgl_website/guide/ui-api-migration.html)。
 
 `NativeTree` 只遍历构造时传入的 root。`App::overlay` 中的弹窗挂载在 LVGL 的 top layer，与活动 screen 分属不同根对象。需要检查弹窗时，在 UI 线程选取 `lv_layer_top()` 作为 root；需要统一导出多层时，使用应用的自定义 `TreeSource` 管理节点身份与层级。
 
@@ -116,5 +128,7 @@ escope -d tcp://127.0.0.1:9337 display capture after.png
 把示例入口和点击坐标替换为目标设备的实际值，PNG 文件名需尚不存在。使用 [Inspector](../guide/basic/inspector.md) 可同时查看对象边界与画面；原生适配器测试见 [构建与测试](../development/testing.md)，团子的平台入口见 [团子 OS](./dango.md)。
 
 ## 运行 rs_lvgl 接入示例
+
+EmbedScope 仓库的 [`examples/rs-lvgl-ui`](https://github.com/umbrella22/EmbedScope/tree/master/examples/rs-lvgl-ui) 使用 rs_lvgl 0.6.0 验证原生对象树、内存显示与输入，运行命令见[构建与测试](../development/testing.md)。
 
 [rs_lvgl 的 EmbedScope 指南](https://umbrella22.github.io/rs_lvgl_website/guide/embedscope.html)提供基于已发布依赖的真实原生示例，包括 UI 线程接入、固定显示帧、原生指针输入，以及调试开启与正式构建关闭的命令。`embedscope` 是应用拥有的可选 feature；`--release` 不会自动关闭它。

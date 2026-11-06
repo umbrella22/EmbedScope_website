@@ -1,6 +1,6 @@
 ---
 title: "快速开始"
-description: "安装 escope，连接软件参考设备，完成第一个点击、屏幕捕获和诊断包。"
+description: "下载 escope 二进制并配置 PATH，通过合成参考设备完成第一次连接、点击、屏幕捕获和诊断导出。"
 ---
 
 # 快速开始
@@ -39,7 +39,7 @@ Windows PowerShell 使用：
 escope simulate
 ```
 
-服务默认监听 `127.0.0.1:9337`。输出中的 `physical_device` 为 `false`；保持这个终端运行，在第二个终端执行后续命令。
+服务默认监听 `127.0.0.1:9337`。输出中的 `physical_device` 为 `false`；保持这个终端运行，在第二个终端执行后续命令。参考设备生成合成数据，不运行应用的 LVGL 界面。
 
 ## 第三步：建立连接
 
@@ -77,7 +77,7 @@ escope -d tcp://127.0.0.1:9337 diagnose --output first-diagnosis --logs 3
 也可以通过 Cargo 安装 CLI，需要 Rust 1.88 或更新版本及平台构建依赖：
 
 ```sh
-cargo install escope-cli --version '=0.3.0' --locked
+cargo install escope-cli --version '=0.4.0' --locked
 ```
 
 源码构建 Inspector、原生 LVGL 或 C/C++ SDK 的工具链要求见[构建与测试](../../development/testing.md)。

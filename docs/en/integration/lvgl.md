@@ -1,6 +1,6 @@
 ---
 title: "LVGL, display, and input"
-description: "Inspect native widget and layout kinds with the rs_lvgl_sys 0.5 provider, maintain UI-thread revisions, and connect display capture and input."
+description: "Inspect native widget and layout kinds with the rs_lvgl_sys 0.6 provider, maintain UI-thread revisions, and connect display capture and input."
 ---
 
 # LVGL, display, and input
@@ -12,21 +12,22 @@ description: "Inspect native widget and layout kinds with the rs_lvgl_sys 0.5 pr
 | Adapter | Suitable source | Output |
 | --- | --- | --- |
 | Custom `TreeSource` | Widget registry, semantic metadata, or an owned tree snapshot | Platform-defined names, kinds, geometry, and flags |
-| `native::NativeTree` | LVGL 9.6 objects using `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` 0.5.0 | Enabled widget and layout kinds, empty names, geometry, and native state bits |
+| `native::NativeTree` | LVGL 9.6 objects using `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` 0.6.0 | Enabled widget and layout kinds, empty names, geometry, and native state bits |
 
 The default library does not link a native LVGL provider:
 
 ```toml
 [dependencies]
-escope-lvgl = { version = "0.3.0" }
+escope-lvgl = { version = "0.4.0" }
 ```
 
-Enable `features = ["native"]` for NativeTree. The adapter depends directly on `rs_lvgl_sys` 0.5.0 and shares the application's actual LVGL provider, ABI, and configuration. It does not require the higher-level `rs_lvgl` style API.
+Enable `features = ["native"]` for NativeTree. The adapter depends directly on `rs_lvgl_sys` 0.6.0 and shares the application's actual LVGL provider, ABI, and configuration. It does not require the higher-level `rs_lvgl` style API.
 
 The native adapter and application use the same provider version line:
 
 | EmbedScope SDK | `rs_lvgl_sys` / `rs_lvgl` / `rs_lvgl_ui` |
 | --- | --- |
+| 0.4.x | 0.6.x |
 | 0.3.x | 0.5.x |
 | 0.2.x | 0.4.x |
 | 0.1.x | 0.3.x |
@@ -69,7 +70,18 @@ NativeTree recognizes enabled widget kinds such as `label`, `button`, `slider`, 
 
 The tree includes native host objects and internal widget nodes. Geometry comes from laid-out native objects, and flags contain native state bits. Names are empty. Supply an application-defined `TreeSource` for label text, declarative View keys, or component boundaries.
 
-The rs_lvgl_ui 0.5 `typed::...` constructors, `child_if`, `binding`, and component slots produce ordinary LVGL objects. Inspector displays their native parent-child relationships. Slots add no wrapper nodes; conditional children appear when mounted. Publish a new revision after event handling, application updates, and reconciliation complete so queries read the resulting geometry and state.
+The rs_lvgl_ui 0.6 `typed::...` constructors, `child_if`, `binding`, and component slots produce ordinary LVGL objects. Inspector displays their native parent-child relationships. Slots add no wrapper nodes; conditional children appear when mounted. Publish a new revision after event handling, application updates, and reconciliation complete so queries read the resulting geometry and state.
+
+The 0.6 UI constructor names and Inspector's native `kind` values describe different interfaces:
+
+| rs_lvgl_ui constructor | Inspector native `kind` |
+| --- | --- |
+| `container()` | `lv_obj`; Flex/Grid layouts classify as `row`, `column`, or `grid` |
+| `progress_bar(...)` | `bar` |
+| `message_box(...)` | `msgbox` |
+| `animated_image(...)` | `animimage` |
+
+These UI renames preserve low-level `rs_lvgl` and LVGL C names, along with Cargo features such as `widget-bar`, `widget-msgbox`, and `widget-animimage`. See the [rs_lvgl_ui 0.6 migration guide](https://umbrella22.github.io/rs_lvgl_website/en/guide/ui-api-migration.html) for application changes to styles, units, and widget parts.
 
 `NativeTree` traverses only the root passed to its constructor. Dialogs mounted through `App::overlay` belong to the LVGL top layer, a separate root from the active screen. Select `lv_layer_top()` as the root on the UI thread to inspect those dialogs. An application-defined `TreeSource` can manage node identities and hierarchy when exporting multiple layers together.
 
@@ -107,5 +119,7 @@ escope -d tcp://127.0.0.1:9337 display capture after-01.png
 The sample coordinates belong to the software reference counter. Use [Inspector](../guide/basic/inspector.md) to examine object bounds on another device. [Dango OS](./dango.md) provides an existing custom tree and final-display integration.
 
 ## Run the rs_lvgl integration example
+
+The EmbedScope repository's [`examples/rs-lvgl-ui`](https://github.com/umbrella22/EmbedScope/tree/master/examples/rs-lvgl-ui) uses rs_lvgl 0.6.0 to verify native trees, a memory display, and input. See [Build and test](../development/testing.md) for commands.
 
 The [rs_lvgl EmbedScope guide](https://umbrella22.github.io/rs_lvgl_website/en/guide/embedscope.html) provides a real native example using published dependencies, UI-thread access, fixed display capture and native pointer input. It documents enabling diagnostics and omitting them from production builds. `embedscope` is an application-owned optional feature; `--release` does not disable it.

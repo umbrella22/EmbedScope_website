@@ -1,6 +1,6 @@
 ---
 title: "Host SDK reference"
-description: "Reference escope-host connection options, typed Session APIs, log events, data models, capture conversion, error variants, and cancellation behavior."
+description: "Add escope-host from crates.io and reference shared Session APIs, connection options, log events, capture conversion, errors, and cancellation."
 ---
 
 # Host SDK reference
@@ -9,7 +9,7 @@ description: "Reference escope-host connection options, typed Session APIs, log 
 
 ```toml
 [dependencies]
-escope-host = { version = "0.3.0" }
+escope-host = { version = "0.4.0" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 ```
 

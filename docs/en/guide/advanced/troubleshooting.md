@@ -44,7 +44,7 @@ For `diagnose`, each requested log has a fixed three-second wait. Reduce `--logs
 
 Repeated `Stale` can mean the tree changes during traversal. Run queries at UI safe points. Advance revision after actual node, layout, property, or state changes, without advancing it merely because a node was read.
 
-SDK 0.4.0 NativeTree identifies enabled widget classes and plain Flex/Grid layouts; unclassified native objects appear as `lv_obj`. Names remain empty. Label text, View keys, and component boundaries require an application-defined `TreeSource`. Check the SDK version and actual provider when an older integration reports only `lv_obj`. Deletion hooks must remove registry entries before an address is reused. Stop all reads before freeing a root or deinitializing LVGL.
+SDK 0.5.0 NativeTree identifies enabled widget classes and plain Flex/Grid layouts; unclassified native objects appear as `lv_obj`. Names remain empty. Label text, View keys, and component boundaries require an application-defined `TreeSource`. Check the SDK version and actual provider when an older integration reports only `lv_obj`. EmbedScope 0.5.x native integrations share a 0.7.x provider with the application; see the compatibility matrix in [LVGL integration](../../integration/lvgl.md). Deletion hooks must remove registry entries before an address is reused. Stop all reads before freeing a root or deinitializing LVGL.
 
 ## Tree and screenshot show different pages
 

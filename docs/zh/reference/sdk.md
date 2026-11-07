@@ -13,7 +13,7 @@ description: "从 crates.io 添加 escope-host，通过共享 Session 连接设�
 
 ```toml
 [dependencies]
-escope-host = { version = "0.4.0" }
+escope-host = { version = "0.5.0" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 

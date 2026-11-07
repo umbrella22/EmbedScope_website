@@ -9,7 +9,7 @@ description: "Add escope-host from crates.io and reference shared Session APIs, 
 
 ```toml
 [dependencies]
-escope-host = { version = "0.4.0" }
+escope-host = { version = "0.5.0" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 ```
 

@@ -59,7 +59,7 @@ The C ABI embeds decoder, Agent, and pending TX into fixed-address caller storag
 
 A platform can prepare read-only snapshots in advance and return Busy when a resource is unavailable. It manages that work and result lifetime itself. Busy has no SDK completion token or automatic polling behavior.
 
-UiBridge and the registry are neither Send nor Sync. Native reads require a live root and the application's actual LVGL provider/configuration. The native adapter uses the shared `rs_lvgl_sys` 0.6.0 provider directly to identify enabled widget classes and plain Flex/Grid layouts, and to read geometry/state. It retains native host objects and internal nodes. Custom TreeSource implementations can supply text, View keys, and component boundaries. Deletion hooks remove registry tokens before addresses are reused, and exhausted generations retire registry slots.
+UiBridge and the registry are neither Send nor Sync. Native reads require a live root and the application's actual LVGL provider/configuration. The native adapter uses the shared `rs_lvgl_sys` 0.7.0 provider directly to identify enabled widget classes and plain Flex/Grid layouts, and to read geometry/state. It retains native host objects and internal nodes. Custom TreeSource implementations can supply text, View keys, and component boundaries. Deletion hooks remove registry tokens before addresses are reused, and exhausted generations retire registry slots.
 
 Tree traversal fixes a revision, detects Stale, and retries within a bounded attempt count. Display capture fixes pixels separately. No operation makes both observations atomic. Tap acceptance can precede the next page's tree or display frame.
 

@@ -1,6 +1,6 @@
 ---
 title: "Build and test"
-description: "Prepare Rust and native tools, build the CLI and Inspector, and run rs_lvgl 0.6 native consumer, C ABI, end-to-end, and bare-metal checks."
+description: "Prepare Rust and native tools, build the CLI and Inspector, and run rs_lvgl 0.7 native consumer, C ABI, end-to-end, and bare-metal checks."
 ---
 
 # Build and test
@@ -59,18 +59,20 @@ cargo test -p escope-lvgl --features native -- --test-threads=1
 
 Workspace tests cover protocol, Agent, host, C ABI, UI bridge, and desktop behavior, including subtree order, ancestor-preserving search, and overlapping-object selection. Native LVGL tests verify widget/layout classification, reads, deletion, and revision with a real memory display. They run serially because LVGL has global state.
 
-An independent consumer uses registry `rs_lvgl` / `rs_lvgl_ui` 0.6.0 to build a real 320×240 memory display. It verifies widget kinds, native host hierarchy, padding-derived geometry, and stale revisions. The `composition` test covers typed constructors, component slots, conditional children, controlled-input reconciliation, and top-layer dialogs.
+An independent consumer uses registry `rs_lvgl` / `rs_lvgl_ui` 0.7.0 to build a real 320×240 memory display. It verifies widget kinds, native host hierarchy, padding-derived geometry, and stale revisions. The `composition` test covers typed constructors, component slots, conditional children, controlled-input reconciliation, and top-layer dialogs.
 
-The `api-0-6` feature includes `composition` and adds checks for the new `container`, `progress_bar`, `message_box`, and `animated_image` constructors, plus `Style::plain`, independent Flex alignment, and semantic part styles. The test platform provides an RGB memory display and native Pointer to check actual pixels, native kinds, geometry, and revision after an input-driven application update. Separate configuration probes exercise providers with no layouts, Grid only, and Flex only:
+The `api-0-7` feature includes `composition` and retains checks for `container`, `progress_bar`, `message_box`, `animated_image`, `Style::plain`, independent Flex alignment, and semantic part styles. The test platform provides an RGB memory display and native Pointer to check actual pixels, native kinds, geometry, and revision after an input-driven application update.
+
+The 0.7 consumer also checks range sliders, textarea input options, `ChartSpec`/history, and a custom arc with Props. After property updates, it reads back native values and kinds, checks reused objects and native hierarchy, and verifies that advancing the revision invalidates old cursors. Separate configuration probes exercise providers with no layouts, Grid only, and Flex only:
 
 ```sh
 cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --locked -- --test-threads=1
 cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --features composition --locked -- --test-threads=1
-cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --features api-0-6 --locked -- --test-threads=1
+cargo test --manifest-path examples/rs-lvgl-ui/Cargo.toml --target-dir target --features api-0-7 --locked -- --test-threads=1
 python3 scripts/check-lvgl-config.py
 ```
 
-Before publication, `python3 scripts/release.py verify` runs the same native UI consumer against extracted SDK archives. Post-publication registry verification uses crates.io dependencies only. Both paths require a single `rs_lvgl_sys` 0.6.0 provider. These tests do not exercise a physical panel.
+Before publication, `python3 scripts/release.py verify` runs the same native UI consumer against extracted SDK archives. Post-publication registry verification uses crates.io dependencies only. Both paths require a single `rs_lvgl_sys` 0.7.0 provider. These tests do not exercise a physical panel.
 
 ## Exercise the CLI end to end
 
@@ -106,7 +108,7 @@ The target check covers default library features without a host runtime. It does
 bash scripts/check.sh
 ```
 
-The gate runs formatting, workspace and native clippy, workspace/native tests, the 0.6 UI consumer, three LVGL configuration probes, RISC-V library compilation, CLI E2E, and the C harness. Install the components and target first.
+The gate runs formatting, workspace and native clippy, workspace/native tests, the 0.7 UI consumer, three LVGL configuration probes, RISC-V library compilation, CLI E2E, and the C harness. Install the components and target first.
 
 Individual static checks are:
 

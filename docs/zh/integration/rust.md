@@ -11,8 +11,8 @@ description: "从 crates.io 添加 no_std Agent，在 Rust 固件中实现 Backe
 
 ```toml
 [dependencies]
-escope-protocol = { version = "0.4.0" }
-escope-agent = { version = "0.4.0" }
+escope-protocol = { version = "0.5.0" }
+escope-agent = { version = "0.5.0" }
 ```
 
 ## 先实现身份
